@@ -1,3 +1,5 @@
+libC/build*
+
 .idea
 *.pyc
 */test_package/build/*
