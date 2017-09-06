@@ -45,3 +45,5 @@ include/Makefile
 
 .deps
 example/main
+
+ar-lib
