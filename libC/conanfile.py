@@ -1,4 +1,4 @@
-from conans import ConanFile, CMake, tools
+from conans import ConanFile, CMake, tools, AutoToolsBuildEnvironment
 import os
 
 
@@ -17,12 +17,13 @@ class LibcConan(ConanFile):
         with tools.chdir("build"):
             if self.settings.os == "Windows":
                 cmake = CMake(self)
-                self.run('cmake hello %s' % cmake.command_line)
-                self.run("cmake --build . %s" % cmake.build_config)
+                cmake.configure()
+                cmake.build()
             else:
                 self.run("autoreconf -vfi ..")
-                self.run("../configure")
-                self.run("make")
+                autotools = AutoToolsBuildEnvironment(self)
+                autotools.configure(configure_dir="..")
+                autotools.make()
 
     def package(self):
         self.copy("*.h", dst="include", src="include")
