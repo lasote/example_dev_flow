@@ -2,28 +2,23 @@ from conans import ConanFile, CMake, tools, AutoToolsBuildEnvironment
 import os
 
 
-class LibcConan(ConanFile):
-    name = "libC"
+class LibBConan(ConanFile):
+    name = "libB"
     version = "1.0"
     license = "MIT"
     url = "https://github.com/lasote/example_dev_flow"
-    description = "Example of dev flow with autotools/CMake"
+    description = "Example of dev flow with CMake"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
     exports_sources = "*", "!build/*"
+    requires = "libC/1.0@myuser/channel"
 
     def build(self):
         os.mkdir("build")
         with tools.chdir("build"):
-            if self.settings.os == "Windows":
-                cmake = CMake(self)
-                cmake.configure()
-                cmake.build()
-            else:
-                self.run("autoreconf -vfi ..")
-                autotools = AutoToolsBuildEnvironment(self)
-                autotools.configure(configure_dir="..")
-                autotools.make()
+            cmake = CMake(self)
+            cmake.configure()
+            cmake.build()
 
     def package(self):
         self.copy("*.h", dst="include", src="include")
@@ -31,4 +26,4 @@ class LibcConan(ConanFile):
         self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ["c"]
+        self.cpp_info.libs = ["b"]

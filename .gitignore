@@ -1,4 +1,7 @@
 libC/build*
+libB/cmake-build-debug/
+libC/cmake-build-debug/
+libA/cmake-build-debug/
 
 .idea
 *.pyc
